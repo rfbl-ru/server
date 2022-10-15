@@ -2,13 +2,19 @@ import paho.mqtt.client as paho
 import json
 import time
 
+
+L = 293
+hostName = "localhost"
+mqtt_login = "login"
+mqtt_pwd = "password"
+
 prevBall1 = 0, 0
 prevTime1 = 0
 prevBall2 = 0, 0
 prevTime2 = 0
 
 D = 30
-L = 293
+
 
 def calcWeight(y, camType):
 	if camType == "1":
@@ -66,8 +72,8 @@ def onMessage(client, userdata, msg):
 
 client = paho.Client()
 client.on_message = onMessage
-client.username_pw_set("calliska", "mXCRI5")
-client.connect(host="192.168.3.104")
+client.username_pw_set(mqtt_login, mqtt_pwd)
+client.connect(host=hostName)
 
 client.subscribe("MIPT-SportRoboticsClub/LunokhodFootball/RawBALL/#")
 # client.subscribe("MIPT-SportRoboticsClub/LunokhodFootball/RawAruco/#")
