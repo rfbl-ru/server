@@ -52,6 +52,7 @@ def onMessage(client, userdata, msg):
                 else:
                     deltaTime -= prevTime1
                 prevTime1 = time.time()
+                print(abs(ballC[0] - prevBall2[0]), abs(ballC[1] - prevBall2[1]))
         if data['camId'] == "2":
             if len(data['ball']) == 1:
                 wN = calcWeight(data['ball'][0]['center']['y'], data['camId'])
@@ -62,18 +63,15 @@ def onMessage(client, userdata, msg):
                 else:
                     deltaTime -= prevTime2
                 prevTime2 = time.time()
+                print(abs(ballC[0] - prevBall1[0]), abs(ballC[1] - prevBall1[1]))
     else:
         if data['camId'] == "1":
-            prevBall1 = 0, 0
+             prevBall1 = 0, 0
         else:
-            prevBall2 = 0, 0
+             prevBall2 = 0, 0
     if ballC[0] != 0 and ballC[1] != 0 and (abs(deltaTime) <= 1000):
-        if abs(ballC[1] - prevY) < ballDelta:
-            client.publish("MIPT-SportRoboticsClub/LunokhodFootball/Ball", json.dumps(ballC))
-            prevY = ballC[1]
-            prevYTime = time.time()
-        elif prevY == -1 or (time.time() - prevYTime) > ballDeltaTime:
-            prevY = ballC[1]
+        print(ballC)
+        client.publish("MIPT-SportRoboticsClub/LunokhodFootball/Ball", json.dumps(ballC))
 
 
 client = paho.Client()
@@ -84,3 +82,4 @@ client.connect(host=hostName)
 client.subscribe("MIPT-SportRoboticsClub/LunokhodFootball/RawBALL/#")
 
 client.loop_forever()
+
